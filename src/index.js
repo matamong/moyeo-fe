@@ -6,17 +6,26 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from 'react-toastify';
 import 'fomantic-ui-css/semantic.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-const queryClient = new QueryClient();
 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      suspense: true
+    }
+  }
+});
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       {/* devtools */}
       <ReactQueryDevtools initialIsOpen={true} />
+      <ToastContainer position="top-right" />
       <App />
     </QueryClientProvider>
   </React.StrictMode>
