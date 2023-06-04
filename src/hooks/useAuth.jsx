@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from 'react-query';
-import AuthStore from '../stores/AuthStore';
+import useAuthStore from '../stores/authStore';
 import api from '../api/authApi';
-
 
 const login = async (codeResponse) => {
   const response = await api.post('/auth/google/callback', {
     code: codeResponse.code,
   });
   const authUser = response.data.user;
-  AuthStore.getState().setauthUser(authUser);
+  // useAuthStore.getState().setAuthUser(authUser);
+  localStorage.setItem('authUser', authUser)
+
   return authUser;
 };
 
@@ -23,8 +24,13 @@ const getUserProfile = async () => {
   }
 }
 
-const logout = () => {
-  AuthStore.getState().clearAuth();
+// 서버 통신 안되면 로그아웃도 못하는거여?
+const logout = async () => {
+  await api.delete('/auth/logout');
+  
+  localStorage.removeItem('authUser');
+  useAuthStore.getState().clearAuthUser();
+
 }
 
 
@@ -33,8 +39,9 @@ export const useLogin = () => {
 }
 
 export const useUserProfile = () => {
+  console.log('quertquery')
   return useQuery('userProfile', getUserProfile, {
-    enabled: !AuthStore.getState().jwt,
+    staleTime: Infinity
   });
 };
 

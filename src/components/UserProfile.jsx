@@ -1,14 +1,25 @@
-import React from 'react';
 import { useUserProfile, useLogout } from '../hooks/useAuth';
-
+import React from 'react';
+import useAuthStore from '../stores/authStore';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserProfile = () => {
     const userProfileQuery = useUserProfile();
-    const logoutMutaion = useLogout();
+    const logoutMutaiton = useLogout();    
+    const { authUser } = useAuthStore();
+    const navigate = useNavigate();
+
+    console.log(authUser);
+
 
     const handleLogout = async () => {
-        await logoutMutaion.muteAsync();
+        await logoutMutaiton.mutateAsync();
+        toast.success('Logout Successful', { autoClose: 5000 });
+        navigate('/');
     }
+
+
     if (userProfileQuery.isLoading) {
         return <div>Loading...</div>
     }

@@ -1,10 +1,11 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
-const AuthStore = create((set) => ({
+const useAuthStore = create(devtools((set) => ({
   authUser: null,
 
-  setauthUser: (authUser) => set({ authUser }),
+  setAuthUser: (user) => set({ authUser: user }),
   clearAuthUser: () => set({ authUser: null }),
-}));
+})));
 
-export default AuthStore;
+export default useAuthStore;
