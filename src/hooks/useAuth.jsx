@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query';
-import useAuthStore from '../stores/authStore';
-import api from '../api/authApi';
+import useStore from '../stores/store';
+import api from '../api/api';
 
 const login = async (codeResponse) => {
   const response = await api.post('/auth/google/callback', {
@@ -26,10 +26,10 @@ const getUserProfile = async () => {
 
 // 서버 통신 안되면 로그아웃도 못하는거여?
 const logout = async () => {
-  await api.delete('/auth/logout');
+  await api.get('/auth/logout');
   
   localStorage.removeItem('authUser');
-  useAuthStore.getState().clearAuthUser();
+  useStore.getState().clearAuthUser();
 
 }
 

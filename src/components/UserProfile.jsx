@@ -1,13 +1,13 @@
 import { useUserProfile, useLogout } from '../hooks/useAuth';
 import React from 'react';
-import useAuthStore from '../stores/authStore';
+import useStore from '../stores/store';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const UserProfile = () => {
     const userProfileQuery = useUserProfile();
     const logoutMutaiton = useLogout();    
-    const { authUser } = useAuthStore();
+    const { authUser } = useStore();
     const navigate = useNavigate();
 
     console.log(authUser);
