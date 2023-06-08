@@ -8,8 +8,8 @@ const login = async (codeResponse) => {
   });
   const authUser = response.data.user;
   // useAuthStore.getState().setAuthUser(authUser);
-  localStorage.setItem('authUser', authUser)
-
+  localStorage.setItem('authUser', JSON.stringify(authUser));
+  
   return authUser;
 };
 

@@ -26,7 +26,8 @@ const UserProfile = () => {
     
     if (userProfileQuery.isError) {
         console.log(userProfileQuery.error.message);
-        return <div>Error Fetching user data.</div>
+        return <div>Error Fetching user data.<button onClick={handleLogout}>Logout</button></div>
+        
     }
 
     return (

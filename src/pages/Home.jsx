@@ -1,19 +1,23 @@
-import React from 'react';
-import landingImg from '../GameduosBanner.png';
-import GoogleLogin from './GoogleLogin'
+import React, { useEffect, useState } from 'react';
+import GuestMain from './Main/GuestMain';
+import UserMain from './Main/UserMain';
 
 const Home = () => {
-    return (
-      <div className="home__container">
-        <div className='home__title__container'>
-            <h1>Moyeo</h1>
-            <GoogleLogin />
-        </div>
-        <div className="home__image__container">
-          <img src={landingImg} alt="Moyeo" />
-        </div>
-      </div>
-    )
+  
+  const [authUser, setAuthUser] = useState();
+
+  useEffect(() => {
+    const authUser = localStorage.getItem("authUser");
+    if (authUser) {
+      setAuthUser(authUser);
+    }
+  }, []);
+
+  return (
+    <div className="home__container">
+      {authUser ? <UserMain authUser={authUser} /> : <GuestMain />}
+    </div>
+  )
 }
 
 export default Home;

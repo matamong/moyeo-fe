@@ -4,7 +4,6 @@ import { useLogin } from '../hooks/useAuth';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button } from 'semantic-ui-react'
 
-
 const GoogleLoginButton = () => {
 
   const loginMutation = useLogin();
@@ -15,6 +14,7 @@ const GoogleLoginButton = () => {
       await loginMutation.mutateAsync(codeResponse)
       console.log(codeResponse);
       toast.success('Login Successful', { autoClose: 5000 });
+      window.location.reload();
     },
     onError: errorResponse => {
       console.log(errorResponse);

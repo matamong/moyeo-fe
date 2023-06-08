@@ -23,6 +23,12 @@ const updateParty = async (partyId, partyData) => {
     return response.data;
 };
 
+
+const getPartySchedule = async (partyId) => {
+    const response = await api.get(`/vote_schedule/party/${partyId}`);
+    return response.data;
+}
+
 export const useMyParties = () => {
     return useQuery('myParties', getMyParties, { staleTime: Infinity });
 };
@@ -38,3 +44,8 @@ export const useCreateParty = () => {
 export const useUpdateParty = () => {
     return useMutation(updateParty);
   };
+
+
+export const usePartySchedule = (partyId) => {
+    return useQuery(['partySchedule', partyId], () => getPartySchedule(partyId));
+}

@@ -1,32 +1,47 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from 'react-toastify';
 import 'fomantic-ui-css/semantic.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter } from "react-router-dom";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { toast } from 'react-toastify';
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 const queryClient = new QueryClient({
+
   defaultOptions: {
-    queries: {
-      retry: 0,
-      suspense: true
-    }
+      queries: {
+          retry: 0,
+          refetchOnMount: true,
+          refetchOnReconnect: false,
+          refetchOnWindowFocus: false,
+          useErrorBoundary: false,
+          onError: (e) => {
+              const err = e;
+              if (err.code === 403) {
+                  toast.error("권한이 없습니다. :(");
+              } else {
+                  toast.error("문제가 생겼어요. 관리자에 문의해주세요. :( ")
+              }
+          }
+      }
   }
 });
+
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      {/* devtools */}
-      <ReactQueryDevtools initialIsOpen={true} />
-      <ToastContainer position="top-right" />
-      <App />
+    <ReactQueryDevtools initialIsOpen={false} />
+      <BrowserRouter>
+        <ToastContainer position="top-right" />
+        <App />
+      </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>
 );
