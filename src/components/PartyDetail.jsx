@@ -1,46 +1,41 @@
 import React from "react";
-import { useGetPartyById, usePartySchedule } from '../hooks/useParty';
-
+import { useGetMyPartyById } from '../hooks/useParty';
+import VoteSchduleList from './VoteScheduleList';
+import VoteScheduleCalendar from "./VoteScheduleCalendar";
 
 const PartyDetail = ({ partyId }) => {
-    const selectedParty = useGetPartyById(partyId);
-    const schedule = usePartySchedule(partyId);
-    const { data: selectedPartyData, isLoading, isError } = selectedParty;
+  const selectedParty = useGetMyPartyById(partyId);
+  const { data: selectedPartyData, isLoading, isError } = selectedParty;
 
-  
-    if (isLoading) {
-      return <div>Loading party information...</div>;
-    }
-  
-    if (isError) {
-      return <div>Error occurred while fetching party information.</div>;
-    }
-  
-    if (!selectedPartyData) {
-      return <div>Loading...</div>;
-    }
+  if (isLoading) {
+    return <div>Loading party information...</div>;
+  }
 
-    console.log(selectedPartyData)
-  
-    return (
+  if (isError) {
+    return <div>Error occurred while fetching party information.</div>;
+  }
+
+  if (!selectedPartyData) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(selectedPartyData)
+
+  return (
+    <div>
       <div>
-        <div>
-            <h2>{selectedPartyData.name}</h2>
-            <p>{selectedPartyData.desc}</p>
-        </div>
-        <div>
-        {schedule.data && schedule.data.length > 0 ? (
-          schedule.data.map((schedule) => (
-            <div key={schedule.id}>
-              <h3>{schedule.name}</h3>
-            </div>
-          ))
-        ) : (
-          <div>스케쥴이 없어요!!!</div>
-        )}
-        </div>
+        <h2>{selectedPartyData.party_user_set[0].is_manager ? `${selectedPartyData.name} 👑` : selectedPartyData.name}</h2>
+        <p>{selectedPartyData.desc}</p>
       </div>
-    );
-  };
-  
-  export default PartyDetail;
+      <div>
+        <h3>Schedule Calendar</h3>
+        <VoteScheduleCalendar partyId={partyId} />
+      </div>
+      <div>
+        <VoteSchduleList partyId={partyId} isManager={selectedPartyData.party_user_set[0].is_manager} />
+      </div>
+    </div>
+  );
+};
+
+export default PartyDetail;

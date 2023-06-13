@@ -6,8 +6,8 @@ const getMyParties = async () => {
     return response.data;
 };
 
-const getPartyById = async (partyId) => {
-    const response = await api.get(`/party/${partyId}`);
+const getMyPartyById = async (partyId) => {
+    const response = await api.get(`/party/me/${partyId}`);
     return response.data;
 };
 
@@ -29,12 +29,17 @@ const getPartySchedule = async (partyId) => {
     return response.data;
 }
 
+const createVoteSchedule = async (VoteScheduleData) => {
+    const response = await api.post('/vote_schedule', VoteScheduleData);
+    return response.data;
+}
+
 export const useMyParties = () => {
     return useQuery('myParties', getMyParties, { staleTime: Infinity });
 };
 
-export const useGetPartyById = (partyId) => {
-    return useQuery(['partyById', partyId], () => getPartyById(partyId));
+export const useGetMyPartyById = (partyId) => {
+    return useQuery(['partyById', partyId], () => getMyPartyById(partyId));
 };
 
 export const useCreateParty = () => {
@@ -48,4 +53,8 @@ export const useUpdateParty = () => {
 
 export const usePartySchedule = (partyId) => {
     return useQuery(['partySchedule', partyId], () => getPartySchedule(partyId));
+}
+
+export const useCreateVoteSchedule = () => {
+    return useMutation(createVoteSchedule);
 }
