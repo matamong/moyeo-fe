@@ -8,14 +8,16 @@ services:
       - 3000:3000
     networks:
       - traefik-public
+
   nginx:
-  image: nginx:latest
-  volumes:
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-  ports:
-    - 8000:80
-  networks:
-    - traefik-public
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8000:80
+    networks:
+      - traefik-public
+
 networks:
   traefik-public:
     external: true
