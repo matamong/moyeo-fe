@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - static-assets:/usr/share/nginx/html
     ports:
       - 3000:3000
     networks:
@@ -22,3 +24,6 @@ services:
 networks:
   traefik-public:
     external: true
+
+volumes:
+  static-assets:
