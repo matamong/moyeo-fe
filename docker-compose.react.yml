@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - static-assets:/usr/share/nginx/html
+    ports:
+      - 3000:3000
     networks:
       - traefik-public
     labels:
@@ -13,9 +13,7 @@ services:
       - traefik.http.routers.react-app.entrypoints=http
       - traefik.http.routers.react-app.rule=Host(`moyoboza.com`)
       - traefik.http.services.react-app.loadbalancer.server.port=80
+
 networks:
   traefik-public:
     external: true
-
-volumes:
-  static-assets:
